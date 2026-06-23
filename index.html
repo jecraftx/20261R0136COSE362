@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FraudSim — Startup Risk Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <!-- onboarding screen -->
+    <div id="screen-onboard" class="screen active">
+      <div class="onboard-layout">
+        <div class="onboard-left">
+          <div class="brand">FraudSim</div>
+          <h1 class="hero-title">Learn to spot fraud<br>before it costs you.</h1>
+          <p class="hero-sub">Real scenarios. Adaptive difficulty. Built for founders who can't afford to learn the hard
+            way.</p>
+          <div class="stats-row">
+            <div class="stat"><span class="stat-num">5</span><span class="stat-label">scenario types</span></div>
+            <div class="stat"><span class="stat-num">VAE</span><span class="stat-label">generated</span></div>
+            <div class="stat"><span class="stat-num">CSV</span><span class="stat-label">lookup</span></div>
+          </div>
+        </div>
+        <div class="onboard-right">
+          <div class="form-card">
+            <div class="form-heading">Tell us about your startup</div>
+            <div class="form-sub">Scenarios are tailored to your stage and sector.</div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="stage">Stage</label>
+                <select id="stage">
+                  <option value="pre-idea">Pre-idea</option>
+                  <option value="idea">Idea stage</option>
+                  <option value="early" selected>Early-stage</option>
+                  <option value="seed">Seed</option>
+                  <option value="series-a">Series A+</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="sector">Sector</label>
+                <select id="sector">
+                  <option value="fintech">Fintech</option>
+                  <option value="saas">SaaS</option>
+                  <option value="deeptech" selected>Deep tech</option>
+                  <option value="ecommerce">E-commerce</option>
+                  <option value="healthtech">Healthtech</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="funding">Funding so far</label>
+                <select id="funding">
+                  <option value="bootstrapped" selected>Bootstrapped</option>
+                  <option value="under-100k">Under $100K</option>
+                  <option value="100k-500k">$100K – $500K</option>
+                  <option value="500k-2m">$500K – $2M</option>
+                  <option value="2m+">$2M+</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="team-size">Team size</label>
+                <input type="number" id="team-size" value="3" min="1" max="999" />
+              </div>
+            </div>
+
+            <button class="btn-start" onclick="startTraining()">
+              Start training
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- scenario screen -->
+    <div id="screen-scenario" class="screen">
+      <header class="topbar">
+        <div class="brand small">FraudSim</div>
+        <div class="topbar-center">
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <span class="progress-label" id="progress-label">Round 1 of 5</span>
+        </div>
+        <div class="topbar-right">
+          <div class="chip" id="diff-chip">Difficulty <strong>0.4</strong></div>
+          <div class="chip score-chip">Score <strong id="score-display">0</strong></div>
+        </div>
+      </header>
+
+      <main class="scenario-main">
+        <div class="scenario-col">
+
+          <div class="scenario-card" id="scenario-card">
+            <div class="threat-bar" id="threat-bar"></div>
+            <div class="scenario-body-wrap">
+              <div class="scenario-meta">
+                <span class="risk-badge" id="risk-badge">Fake Investor</span>
+                <span class="category-badge" id="cat-badge">fraud</span>
+              </div>
+              <h2 class="scenario-title" id="scenario-title">A VC firm reaches out with a term sheet</h2>
+              <p class="scenario-text" id="scenario-text">
+                You get an email from GlobalVentures Capital claiming to have backed three unicorns in your sector.
+                They want to lead your seed round at a $3M valuation cap and can move fast — term sheet within 24 hours.
+                The partner's LinkedIn has 200 connections and no mutual contacts with you.
+                They ask for a $2,000 due diligence fee before proceeding.
+              </p>
+            </div>
+          </div>
+
+          <div class="decision-card">
+            <div class="decision-heading">What do you do?</div>
+            <div class="options-grid" id="options-grid">
+              <button class="option-btn" onclick="selectOption(this)">Pay the fee and move forward — the terms are too
+                good to pass up</button>
+              <button class="option-btn" onclick="selectOption(this)">Schedule a call with the partner before doing
+                anything else</button>
+              <button class="option-btn" onclick="selectOption(this)">Verify the firm on Crunchbase and contact
+                portfolio founders directly</button>
+              <button class="option-btn" onclick="selectOption(this)">Decline — legitimate VCs never charge upfront
+                fees</button>
+            </div>
+            <div class="action-row">
+              <button class="btn-submit" id="btn-submit" onclick="submitAnswer()" disabled>Submit answer</button>
+              <button class="btn-ghost" onclick="skipScenario()">Skip this one</button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- result screen -->
+    <div id="screen-result" class="screen">
+      <header class="topbar">
+        <div class="brand small">FraudSim</div>
+        <div class="topbar-right" style="margin-left:auto">
+          <div class="chip score-chip">Score <strong id="score-result-display">0</strong></div>
+        </div>
+      </header>
+
+      <main class="scenario-main">
+        <div class="scenario-col">
+
+          <div class="result-card" id="result-card">
+            <div class="result-top" id="result-top">
+              <div class="verdict-icon" id="verdict-icon">
+                <svg id="icon-check" width="22" height="22" viewBox="0 0 22 22" fill="none" style="display:none">
+                  <path d="M4 11l5 5L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                <svg id="icon-x" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <path d="M6 6l10 10M16 6L6 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <div class="verdict-text" id="verdict-text">Not quite</div>
+                <div class="verdict-sub" id="verdict-sub">This was a fake investor scam</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="flags-section">
+              <div class="section-label">Red flags in this scenario</div>
+              <ul class="flags-list" id="flags-list">
+                <li>Upfront due diligence fee — no legitimate VC charges this</li>
+                <li>Artificial 24-hour deadline to pressure a fast decision</li>
+                <li>Thin LinkedIn profile with no verifiable track record</li>
+              </ul>
+            </div>
+
+            <div class="recommended-box">
+              <div class="section-label">What you should have done</div>
+              <p id="recommended-text">Don't pay anything. Verify the firm on Crunchbase and reach out to founders they
+                claim to have backed before engaging further.</p>
+            </div>
+          </div>
+
+          <div class="next-row">
+            <button class="btn-start" onclick="nextRound()">
+              Next scenario
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button class="btn-ghost" onclick="goHome()">Change profile</button>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+
+</html>
