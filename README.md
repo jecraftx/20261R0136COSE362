@@ -1,15 +1,5 @@
 # FraudSim Setup
 
-## Files You Need
-
-Place these files in the same folder as `server.py`:
-
-| File | Source |
-|------|--------|
-| `trained_vae.pt` | Download from Colab's file browser after training, or re-run the training cell |
-| `fraud_scenarios_encoded.csv` | Same file the notebook pulls via gdown |
-
----
 
 ## Getting Started
 
